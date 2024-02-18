@@ -2,6 +2,7 @@ import 'package:adr/data/datasource/product_datasource.dart';
 import 'package:adr/data/datasource/product_datasource_impl.dart';
 import 'package:adr/data/repository/product_repository.dart';
 import 'package:adr/data/repository/product_repository_impl.dart';
+import 'package:adr/stateful/product_by_id_screen_stateful.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -76,17 +77,24 @@ class _ProductStatefulScreenState extends State<ProductStatefulScreen> {
                   child: ListView.builder(
                 itemCount: products.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: Text(
-                      products[index].title,
-                      style: const TextStyle(
-                        color: Colors.black,
+                  return InkWell(
+                    onTap: () async =>
+                        await Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ProductByIdScreenStateful(
+                          productId: products[index].id),
+                    )),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        products[index].title,
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   );

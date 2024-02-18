@@ -5,7 +5,7 @@ import 'package:adr/data/repository/product_repository.dart';
 import 'package:adr/data/repository/product_repository_impl.dart';
 import 'package:get/get.dart';
 
-class ProductControlelr extends GetxController {
+class ProductController extends GetxController {
   late ProductDatasource productDatasource;
   late ProductRepository productRepository;
 
@@ -21,6 +21,10 @@ class ProductControlelr extends GetxController {
   final RxList<ProductModel> _productList = <ProductModel>[].obs;
   RxList<ProductModel> get productList => _productList;
 
+  final Rx<ProductModel> _product =
+      ProductModel(id: 0, title: "", description: "", thumbnail: "").obs;
+  Rx<ProductModel> get product => _product;
+
   final RxBool _isLoading = false.obs;
   RxBool get isLoading => _isLoading;
 
@@ -33,5 +37,12 @@ class ProductControlelr extends GetxController {
         _productList.add(ProductModel.fromMap(product.toMap()));
       }
     });
+  }
+
+  Future<void> fetchProductById(int productId) async {
+    _isLoading.value = true;
+    final result = await productRepository.fetchProductById(productId);
+    _isLoading.value = false;
+    result.fold((l) => null, (r) => _product.value = r);
   }
 }
