@@ -19,4 +19,14 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(Failure(e.toString(), st));
     }
   }
+
+  @override
+  FutureEither<ProductModel> fetchProductById(int productId) async {
+    try {
+      final response = await productDatasource.fetchProductById(productId);
+      return Right(response);
+    } catch (e, st) {
+      return Left(Failure(e.toString(), st));
+    }
+  }
 }

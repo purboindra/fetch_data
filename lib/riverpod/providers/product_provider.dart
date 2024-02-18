@@ -23,3 +23,24 @@ class Product extends _$Product {
     return state.value ?? [];
   }
 }
+
+@riverpod
+class FetchProductById extends _$FetchProductById {
+  @override
+  FutureOr<ProductModel> build(int productId) async {
+    return await fetchProductById(productId);
+  }
+
+  Future<ProductModel> fetchProductById(int productId) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final response =
+          await ref.read(productDatasourceProvider).fetchProductById(productId);
+      ref.keepAlive();
+      return response;
+    });
+
+    return state.value ??
+        ProductModel(id: 0, title: "", description: "", thumbnail: "");
+  }
+}

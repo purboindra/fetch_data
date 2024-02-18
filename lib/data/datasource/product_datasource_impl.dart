@@ -29,4 +29,19 @@ class ProductDatasourceImpl implements ProductDatasource {
       throw CustomError(e.toString());
     }
   }
+
+  @override
+  Future<ProductModel> fetchProductById(int productId) async {
+    try {
+      final response = await dio.get("$url/$productId");
+      if (response.statusCode != 200) {
+        throw CustomError("Terjadi kesalahan, silahkan coba lagi...");
+      }
+
+      return ProductModel.fromMap(response.data);
+    } catch (e, st) {
+      log("ERROR PRODUCT DATASOURCE PRODUCT BY ID $e");
+      throw CustomError(e.toString());
+    }
+  }
 }

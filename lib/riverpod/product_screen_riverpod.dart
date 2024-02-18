@@ -1,4 +1,5 @@
 import 'package:adr/core/failure.dart';
+import 'package:adr/riverpod/product_by_id_screen.dart';
 import 'package:adr/riverpod/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +26,11 @@ class ProductScreenRiverpod extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final product = data[index];
                       return ListTile(
+                        onTap: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              ProductByIdRiverpod(productId: product.id),
+                        )),
                         title: Text(product.title),
                       );
                     },
