@@ -1,11 +1,11 @@
-import 'package:adr/get/controller/product_controller.dart';
+import 'package:adr/get/controller/product_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductByIdScreenGetx extends StatelessWidget {
   ProductByIdScreenGetx({super.key});
 
-  final _productC = Get.put(ProductController());
+  final _productC = Get.put(ProductDetailController());
 
   @override
   Widget build(BuildContext context) {

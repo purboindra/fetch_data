@@ -1,8 +1,7 @@
 import 'package:adr/get/controller/product_controller.dart';
 import 'package:adr/get/product_by_id_screen_getx.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 
 class ProductScreenGetx extends StatelessWidget {
   ProductScreenGetx({super.key});
@@ -40,15 +39,18 @@ class ProductScreenGetx extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () async {
-                        await Future.delayed(Duration.zero, () async {
-                          await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductByIdScreenGetx(),
-                              ));
+                        // await Future.delayed(Duration.zero, () async {
+                        //   await Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => ProductByIdScreenGetx(),
+                        //       ));
+                        // });
+                        Get.to(() => ProductByIdScreenGetx(), arguments: {
+                          "productId": productC.productList[index].id,
                         });
-                        await productC
-                            .fetchProductById(productC.productList[index].id);
+                        // await productC
+                        //     .fetchProductById(productC.productList[index].id);
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 5),
