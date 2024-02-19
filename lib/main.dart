@@ -1,3 +1,4 @@
+import 'package:adr/core/logger_provider.dart';
 import 'package:adr/get/product_screen_getx.dart';
 import 'package:adr/riverpod/product_screen_riverpod.dart';
 import 'package:adr/stateful/product_statetul_screen.dart';
@@ -8,7 +9,9 @@ import 'package:get/get.dart';
 const String url = "https://dummyjson.com/products";
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(observers: [Logger()], child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
