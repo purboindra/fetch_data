@@ -1,4 +1,5 @@
 import 'package:adr/core/failure.dart';
+import 'package:adr/data/model/product_model.dart';
 import 'package:adr/riverpod/product_by_id_screen.dart';
 import 'package:adr/riverpod/providers/product_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,43 +17,32 @@ class ProductScreenRiverpod extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
-        child: product.when(
-          data: (data) {
-            return Column(
-              children: [
-                Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Products"),
+            switch (product) {
+              AsyncValue<List<ProductModel>>(:final valueOrNull?) => Expanded(
                   child: ListView.builder(
-                    itemCount: data.length,
+                    itemCount: valueOrNull.length,
                     itemBuilder: (context, index) {
-                      final product = data[index];
+                      final product = valueOrNull[index];
                       return ListTile(
-                        onTap: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              ProductByIdRiverpod(productId: product.id),
+                        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ProductByIdRiverpod(productId: product.id),
                         )),
                         title: Text(product.title),
                       );
                     },
                   ),
                 ),
-              ],
-            );
-          },
-          error: (error, stackTrace) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text((error as CustomError).message)],
-            ),
-          ),
-          loading: () => const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator.adaptive(),
-              ],
-            ),
-          ),
+              AsyncValue(:final error?) => Text((error as CustomError).message),
+              _ => const Expanded(
+                    child: Center(
+                  child: CircularProgressIndicator(),
+                )),
+            },
+          ],
         ),
       ),
     );
